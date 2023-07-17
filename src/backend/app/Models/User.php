@@ -19,8 +19,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
-        'password',
+        'phone',
+        'login_code',
     ];
 
     /**
@@ -29,7 +29,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        'login_code',
         'remember_token',
     ];
 
@@ -39,7 +39,16 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'login_code' => 'hashed',
     ];
+
+    public function driver()
+    {
+        return $this->hasOne(Driver::class);
+    }
+
+    public function trips()
+    {
+        return $this->hasMany(Trip::class);
+    }
 }
