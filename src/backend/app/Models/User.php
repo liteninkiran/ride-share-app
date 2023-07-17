@@ -23,6 +23,11 @@ class User extends Authenticatable
         'login_code',
     ];
 
+    public function routeNotificationForTwilio()
+    {
+        return $this->phone;
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -31,15 +36,6 @@ class User extends Authenticatable
     protected $hidden = [
         'login_code',
         'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'login_code' => 'hashed',
     ];
 
     public function driver()
