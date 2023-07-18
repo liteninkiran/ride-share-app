@@ -8,7 +8,7 @@
         </h1>
 
         <!-- Form -->
-        <form action="#">
+        <form action="#" @submit.prevent="handleLogin">
 
             <div
                 class="overflow-hidden
@@ -23,10 +23,12 @@
                 <div class="bg-white px-4 py-5 sm:p-6">
                     <div>
                         <input
+                            v-maska
+                            data-maska="(#####) ######"
                             type="text"
                             name="phone"
                             id="phone"
-                            placeholder="1 (234) 567-8910"
+                            placeholder="(07788) 123456"
                             class="mt-1
                                     block
                                     w-full
@@ -45,6 +47,7 @@
                 <!-- Submit -->
                 <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
                     <button
+                        @submit.prevent="handleLogin"
                         type="submit"
                         class="inline-flex 
                                 justify-center 
@@ -74,6 +77,11 @@
 </template>
 
 <script setup>
+
+    import { vMaska } from 'maska';
+
+    const handleLogin = () => {
+    }
 
 </script>
 
