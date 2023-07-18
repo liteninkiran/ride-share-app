@@ -61,10 +61,11 @@
 </template>
 
 <script setup>
-    // import { useRouter } from 'vue-router'
+    import { useRouter } from 'vue-router'
     // import http from '@/helpers/http'
 
-    // const router = useRouter()
+    const router = useRouter()
+
     // const handleStartDriving = () => {
     //     http().get('/api/driver')
     //         .then((response) => {
@@ -82,17 +83,14 @@
     //             console.error(error)
     //         })
     // }
-    // const handleFindARide = () => {
-    //     router.push({
-    //         name: 'location'
-    //     })
-    // }
-
-
-    const handleStartDriving = () => {
-    }
 
     const handleFindARide = () => {
-    }
+        router.push({
+            name: 'location',
+        });
+    };
+
+    const handleStartDriving = () => {
+    };
 
 </script>
