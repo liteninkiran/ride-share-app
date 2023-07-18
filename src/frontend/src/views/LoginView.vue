@@ -24,11 +24,12 @@
                     <div>
                         <input
                             v-maska
-                            data-maska="(#####) ######"
+                            data-maska="+44#### ######"
+                            v-model="credentials.phone"
                             type="text"
                             name="phone"
                             id="phone"
-                            placeholder="(07788) 123456"
+                            placeholder="+447788 123456"
                             class="mt-1
                                     block
                                     w-full
@@ -79,9 +80,29 @@
 <script setup>
 
     import { vMaska } from 'maska';
+    import { reactive } from 'vue';
+    import axios from 'axios'
+
+    const credentials = reactive({
+        phone: null,
+    });
+
+    const getFormattedCredentials = () => {
+        return {
+            phone: credentials.phone.replaceAll(' ', '').replace('(', '').replace(')', '').replace('-', ''),
+        }
+    }
 
     const handleLogin = () => {
-    }
+        axios.post('http://localhost:8000/api/login', getFormattedCredentials())
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+                alert(error.response.data.message);
+            })
+    };
 
 </script>
 
