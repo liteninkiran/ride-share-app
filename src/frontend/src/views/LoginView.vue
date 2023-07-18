@@ -148,16 +148,16 @@
     import { vMaska } from 'maska';
     import { reactive, ref, onMounted } from 'vue';
     import { useRouter } from 'vue-router';
-    import axios from 'axios'
+    import axios from 'axios';
 
-    const router = useRouter()
+    const router = useRouter();
 
     const credentials = reactive({
         phone: null,
         login_code: null,
     });
 
-    const waitingOnVerification = ref(false)
+    const waitingOnVerification = ref(false);
 
     onMounted(() => {
         if (localStorage.getItem('token')) {
@@ -165,14 +165,14 @@
                 name: 'landing',
             })
         }
-    })
+    });
 
     const getFormattedCredentials = () => {
         return {
             phone: credentials.phone.replaceAll(' ', '').replace('(', '').replace(')', '').replace('-', ''),
             login_code: credentials.login_code,
-        }
-    }
+        };
+    };
 
     const handleLogin = () => {
         axios.post('http://localhost:8000/api/login', getFormattedCredentials())
@@ -199,8 +199,8 @@
             .catch((error) => {
                 console.error(error)
                 alert(error.response.data.message)
-            })
-    }
+            });
+    };
 
 </script>
 
