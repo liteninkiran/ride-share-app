@@ -17,20 +17,20 @@ export const useLocationStore = defineStore('location', () => {
         },
     });
 
-    // const current = reactive({
-    //     geometry: {
-    //         lat: null,
-    //         lng: null,
-    //     },
-    // });
+    const current = reactive({
+        geometry: {
+            lat: null,
+            lng: null,
+        },
+    });
 
-    // const updateCurrentLocation = async () => {
-    //     const userLocation = await getUserLocation();
-    //     current.geometry = {
-    //         lat: userLocation.coords.latitude,
-    //         lng: userLocation.coords.longitude,
-    //     };
-    // };
+    const updateCurrentLocation = async () => {
+        const userLocation = await getUserLocation();
+        current.geometry = {
+            lat: userLocation.coords.latitude,
+            lng: userLocation.coords.longitude,
+        };
+    };
 
     // const reset = () => {
     //     destination.name = '';
@@ -42,5 +42,5 @@ export const useLocationStore = defineStore('location', () => {
     //     current.geometry.lng = null;
     // };
     
-    return { destination }; // , current, updateCurrentLocation, reset };
+    return { destination, current, updateCurrentLocation }; // , reset };
 })

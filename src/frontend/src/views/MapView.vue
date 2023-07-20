@@ -11,7 +11,7 @@
         <div>
 
             <!-- Outer Container -->
-            <div class="overflow-hidden shadow sm:rounded-md max-w-sm mx-auto text-left">
+            <div class="overflow-hidden shadow sm:rounded-md w-9/12 mx-auto text-left">
 
                 <!-- Inner Container -->
                 <div class="bg-white px-4 py-5 sm:p-6">
@@ -20,10 +20,11 @@
                     <div>
                         <GMapMap
                             v-if="location.destination.name !== ''"
-                            :zoom="11"
+                            :zoom="15"
                             :center="location.destination.geometry"
                             ref="gMap"
-                            style="width: 100%; height: 256px;">
+                            style="width: 100%; height: 500px;">
+                            <!-- <GMapMarker :position="location.destination.geometry"></GMapMarker> -->
                         </GMapMap>
                     </div>
 
@@ -68,11 +69,49 @@
 </template>
 
 <script setup>
-    import { useLocationStore } from '@/stores/location'
+    import { useLocationStore } from '@/stores/location';
+    import { onMounted, ref } from 'vue';
+    import { useRouter } from 'vue-router';
 
-    const location = useLocationStore()
+    const location = useLocationStore();
+    const router = useRouter();
+
+    const gMap = ref(null);
 
     const handleConfirmTrip = () => {
-    }
+    };
 
+    onMounted(async () => {
+        // Does the user have a location set?
+        if (location.destination.name === '') {
+            router.push({
+                name: 'location',
+            });
+        }
+
+        // Lets get the users current location
+        await location.updateCurrentLocation();
+
+        // Draw a path on the map
+        gMap.value.$mapPromise.then((mapObject) => {
+            const currentPoint = new google.maps.LatLng(location.current.geometry);
+            const destinationPoint = new google.maps.LatLng(location.destination.geometry);
+            const directionsService = new google.maps.DirectionsService;
+            const directionsDisplay = new google.maps.DirectionsRenderer({ map: mapObject });
+
+            directionsService.route({
+                origin: currentPoint,
+                destination: destinationPoint,
+                avoidTolls: false,
+                avoidHighways: false,
+                travelMode: google.maps.TravelMode.DRIVING,
+            }, (res, status) => {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(res);
+                } else {
+                    console.error(status);
+                }
+            });
+         });
+    });
 </script>
