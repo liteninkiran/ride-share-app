@@ -70,15 +70,32 @@
 
 <script setup>
     import { useLocationStore } from '@/stores/location';
+    // import { useTripStore } from '@/stores/trip';
     import { onMounted, ref } from 'vue';
     import { useRouter } from 'vue-router';
+    import http from '@/helpers/http';
 
     const location = useLocationStore();
+    // const trip = useTripStore()
     const router = useRouter();
 
     const gMap = ref(null);
 
     const handleConfirmTrip = () => {
+        http().post('/api/trip', {
+            origin: location.current.geometry,
+            destination: location.destination.geometry,
+            destination_name: location.destination.name,
+        })
+        .then((response) => {
+            // trip.$patch(response.data);
+            router.push({
+                name: 'trip',
+            });
+        })
+        .catch((error) => {
+            console.error(error);
+        });
     };
 
     onMounted(async () => {
