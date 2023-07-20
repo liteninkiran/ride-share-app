@@ -39,46 +39,36 @@
 
         </form>
 
-        <div class="mt-10">
-            <GMapMap
-                :center="{lat: 50.794451, lng: -1.065892}"
-                :zoom="13"
-                map-type-id="terrain"
-                style="width: 99vw; height: 900px"
-            >
-            </GMapMap>
-        </div>
-
     </div>
 
 </template>
 
 <script setup>
-    // import { useLocationStore } from '@/stores/location';
-    // import { useRouter } from 'vue-router';
+    import { useLocationStore } from '@/stores/location';
+    import { useRouter } from 'vue-router';
 
-    // const location = useLocationStore();
-    // const router = useRouter();
+    const location = useLocationStore();
+    const router = useRouter();
 
     const handleLocationChanged = (e) => {
-         console.log('handleLocationChanged', e);
-    //     location.$patch({
-    //         destination: {
-    //             name: e.name,
-    //             address: e.formatted_address,
-    //             geometry: {
-    //                 lat: e.geometry.location.lat(),
-    //                 lng: e.geometry.location.lng(),
-    //             },
-    //         },
-    //     });
+        console.log('handleLocationChanged', e);
+        location.$patch({
+            destination: {
+                name: e.name,
+                address: e.formatted_address,
+                geometry: {
+                    lat: e.geometry.location.lat(),
+                    lng: e.geometry.location.lng(),
+                },
+            },
+        });
     };
 
     const handleSelectLocation = () => {
         if (location.destination.name !== '') {
-            // router.push({
-            //     name: 'map',
-            // });
+            router.push({
+                name: 'map',
+            });
         }
     };
 
