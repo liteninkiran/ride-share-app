@@ -5,7 +5,8 @@
             <div class="overflow-hidden shadow sm:rounded-md max-w-sm mx-auto text-left">
                 <div class="bg-white px-4 py-5 sm:p-6">
                     <div>
-                        <GMapMap :zoom="14" ref="gMap" style="width:100%; height: 500px;">
+                        <GMapMap :zoom="14" :center="location.current.geometry" ref="gMap" style="width:100%; height: 500px;">
+                            <GMapMarker :position="location.current.geometry" :icon="currentIcon" />
                         </GMapMap>
                     </div>
                 </div>
@@ -18,5 +19,6 @@
 </template>
 
 <script setup>
-
+    import { useLocationStore } from '@/stores/location';
+    const location = useLocationStore();
 </script>
